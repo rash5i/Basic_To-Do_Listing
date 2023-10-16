@@ -1,0 +1,37 @@
+{% extends 'appname/base.html' %}
+{% load static %}
+{% block content %}
+ {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-primary" role="alert">
+            <button class="close" data-dismiss="alert">
+                <small><sup>X</sup></small>
+            </button>
+            {{message}}
+        </div>
+    {% endfor %}
+ {% endif %}
+ <h1>ToDO List</h1>
+ <br/>
+ <div>items in the ToDo list:</div>
+ {% if all_items %}
+  <table class="table table-bordered">
+    {% for things in all_items %}
+        {% if things.completed %}
+            <tr class="table-success">
+                <td><a href="{% url 'edit' things.id %}">edit</a>   {{things.item}}</td>
+                <td><center><a href="{% url 'uncross' things.id %}">Marks as not completed</a></center></td>
+                <td><center><a href="{% url 'delete' things.id %}">Delete</a></center></td>
+            </tr>
+        {% else %}
+            <tr class="table-danger">
+                <td><a href="{% url 'edit' things.id %}">edit</a>  {{things.item}} </td>
+                <td><center><a href="{% url 'cross_off' things.id %}">Mark as completed</a></center></td>
+                <td><center><a href="{% url 'delete' things.id %}">Delete</a></center></td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+  </table>
+ {% endif %}
+{% endblock %}
+
